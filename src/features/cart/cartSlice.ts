@@ -34,7 +34,6 @@ const cartSlice = createSlice({
       if (state.find((item: ProductItem) => item.id === payload.id)) {
         state = state.map((cart) => {
           if (cart.id === payload.id) {
-            console.log(payload.price)
             return {
               ...cart,
               count: cart.count++,
@@ -54,7 +53,6 @@ const cartSlice = createSlice({
       } else {
         state = state.map((product) => {
           if (product.id === payload.id) {
-            console.log(product.price)
             return {
               ...payload,
               count: product.count--,
