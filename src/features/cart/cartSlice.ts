@@ -8,32 +8,7 @@ const cartSlice = createSlice({
     count: 0,
     total: 0.00
   } as CartStateType,
-  //   cart: [],
-  //   count: 0,
-  //   total: 0.0,
-  // } as CartStateType,
   reducers: {
-    // addToBasket: (state, { payload }: PayloadAction<ProductItem>) => {
-    //   if (state.cart.find((item) => item.product.id === payload.id)) {
-    //     state.cart = state.cart.map((cart) => {
-    //       console.log('cart', cart);
-    //       if (cart.product.id === payload.id) {
-    //         return {
-    //           product: payload,
-    //           quantity: cart.quantity++,
-    //         };
-    //       }
-    //       console.log('cart2', cart);
-    //       return cart
-    //     });
-    //   }else{
-    //     state.cart.push({
-    //       product: payload,
-    //       quantity: 1
-    //     })
-    //   }
-    // },
-
     addToBasket: (state, { payload }: PayloadAction<ProductItem>) => {
       state.count += 1
       state.total = Number((state.total + payload.price).toFixed(2))
