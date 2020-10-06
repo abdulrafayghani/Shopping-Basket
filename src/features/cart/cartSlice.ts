@@ -6,10 +6,12 @@ const cartSlice = createSlice({
   initialState: {
     cart: [],
     count: 0,
-    total: 0.00
+    total: 0.00,
+    // added: false
   } as CartStateType,
   reducers: {
     addToBasket: (state, { payload }: PayloadAction<ProductItem>) => {
+      // state.added = true
       state.count += 1
       state.total = Number((state.total + payload.price).toFixed(2))
       if(state.cart.find((productItem) => productItem.product.id === payload.id)){
@@ -17,7 +19,8 @@ const cartSlice = createSlice({
           if(productItem.product.id === payload.id){
             return { 
               product: payload,
-              quantity: productItem.quantity + 1
+              quantity: productItem.quantity + 1,
+              added: true
             }
         }
         return productItem              
@@ -30,6 +33,8 @@ const cartSlice = createSlice({
       } 
     },
     remove: (state, { payload }: PayloadAction<ProductItem>) => {
+      state.count -= 1
+      state.total = Number((state.total - payload.price).toFixed(2))
       if(state.cart.filter((productItem) => productItem.product.id === payload.id)[0].quantity === 1){
         const index = Number(state.cart.map((productItem) => productItem.product.id === payload.id));
         state.cart.splice(index, 1)
@@ -47,7 +52,9 @@ const cartSlice = createSlice({
         }
       },
     removeFromBasket: (state, { payload }: PayloadAction<ProductItem>) => {
-      const index = Number(state.cart.map((productItem) => productItem.product.id === payload.id));
+      const index = Number(state.cart.findIndex((productItem) => productItem.product.id === payload.id));
+      state.total = Number((state.total - (payload.price * state.cart[index].quantity)).toFixed(2))
+      state.count -= state.cart[index].quantity
       state.cart.splice(index, 1);
     },
   },

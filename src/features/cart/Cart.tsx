@@ -11,18 +11,19 @@ import {
   Paper
 } from '@material-ui/core';
 import React from 'react';
-import { remove, removeFromBasket } from '../cart/cartSlice';
-import x from '../../images/X.png';
+import { addToBasket, remove, removeFromBasket } from '../cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { rootState } from '../../store';
-
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 
 function ccyFormat(num: number) {
   return `${num.toFixed(2)}`;
 }
 
 export const Cart = () => {
-  const { cart, total } = useSelector((state: rootState) => state.products);
+  const { cart, total, count } = useSelector((state: rootState) => state.products);
   const dispatch = useDispatch();
 
   return (
@@ -59,12 +60,15 @@ export const Cart = () => {
                       </TableCell>
                       <TableCell style={{color:"#00f2e2"}} align="center">{productItem.quantity}</TableCell>
                       <TableCell style={{color:"#00f2e2"}} align="center">{(productItem.product.price * productItem.quantity)}</TableCell>
-                      <TableCell style={{color:"#00f2e2"}} align="justify"> <Button onClick={()=> {dispatch(remove(productItem.product))}} > <img height='25px' src={x} alt=""/></Button></TableCell>
-                      <TableCell style={{color:"#00f2e2"}} align='justify'> <Button onClick={()=> {dispatch(removeFromBasket(productItem.product))}} color='secondary' > Remove from Basket</Button></TableCell>
+                      <TableCell style={{color:"#00f2e2"}} align="justify"> <Button onClick={()=> {dispatch(addToBasket(productItem.product))}} > <AddIcon  color='secondary' /> </Button></TableCell>
+                      <TableCell style={{color:"#00f2e2"}} align="left"> <Button onClick={()=> {dispatch(remove(productItem.product))}} > <RemoveIcon color='secondary' /> </Button></TableCell>
+                      <TableCell style={{color:"#00f2e2"}} align='justify'> <Button onClick={()=> {dispatch(removeFromBasket(productItem.product))}}  > <RemoveShoppingCartIcon style={{ color: '#00f291' }} /> </Button></TableCell>
                     </TableRow>
                   ))}
             <TableRow>
             {/* <TableCell rowSpan={3} /> */}
+            <TableCell align='center' style={{color:'hotpink', fontWeight:'bold'}} >Total Products</TableCell>
+            <TableCell align='center' style={{color:'#00f2e2'}}>{count}</TableCell>
             <TableCell align='center' style={{color:'hotpink', fontWeight:'bold'}} >Subtotal</TableCell>
             <TableCell style={{color:'#00f2e2'}} align="right">{ccyFormat(total)}</TableCell>
           </TableRow>

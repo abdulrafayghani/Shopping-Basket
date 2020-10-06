@@ -9,11 +9,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { data } from '../../util';
 import { addToBasket } from '../cart/cartSlice';
 import { Box } from '@material-ui/core';
 import cart from '../../images/shopping-cart.png';
+import { rootState } from "../../store";
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export const Home = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const count = useSelector((state: rootState) => state.products.count ) 
 
   return (
     <div >
@@ -33,6 +35,7 @@ export const Home = () => {
         <Link to='/cart'>
           {' '}
           <Box display='flex' justifyContent='flex-end' mr="50px"   >
+            {count}
           <img
             src={cart}
             alt=""
